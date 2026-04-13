@@ -24,6 +24,6 @@ jobs:
                 tags: ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}
             - name: Deploy to VM
               run: |
-                echo "{{ secrets.SSH_MONOREPO_HOST }}" &> ~/ssh_keys
+                echo "${{ secrets.SSH_MONOREPO_HOST }}" &> ~/ssh_keys
                 chmod 700 /home/runner/ssh_keys
                 ssh -o "StrictHostKeyChecking=no" -i ~/ssh_keys root@165.227.41.43 -t "docker pull ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }} && docker stop backend || true && docker rm backend || true && docker run -d --name backend -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.sha }}"
